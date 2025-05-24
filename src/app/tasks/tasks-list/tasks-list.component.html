@@ -1,1 +1,17 @@
-<p>tasks-list works!</p>
+<div class="task-list">
+  <h2>📝 Task List</h2>
+
+  <div *ngIf="(tasks$ | async)?.length === 0">
+    <p>No tasks available. Add one above!</p>
+  </div>
+
+  <ul>
+    <li *ngFor="let task of (tasks$ | async)">
+      <input type="checkbox" [checked]="task.status === 'completed'" (change)="toggleTask(task)" />
+      <span [ngClass]="{ completed: task.status === 'completed' }">
+        {{ task.title }}
+      </span>
+      <button (click)="deleteTask(task.id)">🗑</button>
+    </li>
+  </ul>
+</div>
