@@ -7,7 +7,8 @@ import { Task } from '../task.model';
   selector: 'app-tasks-list',
   imports: [CommonModule],
   templateUrl: './tasks-list.component.html',
-  styleUrl: './tasks-list.component.css'
+  styleUrl: './tasks-list.component.css',
+  standalone: true
 })
 export class TasksListComponent {
   tasks$: Observable<Task[]> = new Observable<Task[]>();
