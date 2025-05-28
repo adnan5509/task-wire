@@ -1,17 +1,18 @@
-<div class="task-list">
-  <h2>📝 Task List</h2>
+<div class="container">
+  <h1>Let's get things done!</h1>
 
-  <div *ngIf="(tasks$ | async)?.length === 0">
-    <p>No tasks available. Add one above!</p>
+  <div class="input-wrapper">
+    <input type="text" [(ngModel)]="newTask" placeholder="Add a task..." />
+    <button mat-raised-button color="primary" (click)="addTask()">Add Task</button>
   </div>
 
-  <ul>
-    <li *ngFor="let task of (tasks$ | async)">
-      <input type="checkbox" [checked]="task.status === 'completed'" (change)="toggleTask(task)" />
-      <span [ngClass]="{ completed: task.status === 'completed' }">
-        {{ task.title }}
-      </span>
-      <button (click)="deleteTask(task.id)">🗑</button>
+  <ul class="task-list">
+    <li *ngFor="let task of tasks$ | async; let i = index">
+      <button mat-icon-button color="warn" (click)="removeTask(i)">
+        <mat-icon>delete</mat-icon>
+      </button>
+      {{ task }}
+      <span class="check-icon">✔</span>
     </li>
   </ul>
 </div>
