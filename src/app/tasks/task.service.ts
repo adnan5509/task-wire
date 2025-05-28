@@ -31,8 +31,12 @@ export class TaskService {
     this.saveTasks(updatedTasks);
   }
 
-  
-
+  removeTask(taskId: number) {
+    const currentTasks = this.tasks.getValue();
+    const updatedTasks = currentTasks.filter(task => task.id !== taskId);
+    this.tasks.next(updatedTasks);
+    this.saveTasks(updatedTasks);
+  }
   saveTasks(tasks: Task[]) {
     try {
       localStorage.setItem(this.TASKS_STORAGE_KEY, JSON.stringify(tasks));
