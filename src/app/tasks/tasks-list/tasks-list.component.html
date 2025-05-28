@@ -7,8 +7,8 @@
   </div>
 
   <ul class="task-list">
-    <li *ngFor="let task of tasks$ | async; let i = index">
-      <button mat-icon-button color="warn" (click)="removeTask(i)">
+    <li *ngFor="let task of tasks$ | async">
+      <button mat-icon-button color="warn" (click)="removeTask(task.id)">
         <mat-icon>delete</mat-icon>
       </button>
       {{ task }}

@@ -24,6 +24,14 @@ export class TaskService {
     }
   }
 
+  /**
+   * Returns an observable that emits the current list of tasks.
+   * This allows components to subscribe and react to changes in the task list.
+   */
+  getTasks() {
+    return this.tasks.asObservable();
+  }
+
   addTask(task: Task) {
     const currentTasks = this.tasks.getValue();
     const updatedTasks = [...currentTasks, task];
@@ -37,6 +45,7 @@ export class TaskService {
     this.tasks.next(updatedTasks);
     this.saveTasks(updatedTasks);
   }
+
   saveTasks(tasks: Task[]) {
     try {
       localStorage.setItem(this.TASKS_STORAGE_KEY, JSON.stringify(tasks));

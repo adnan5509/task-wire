@@ -6,6 +6,7 @@ import { Task } from '../task.model';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { TaskService } from '../task.service';
 
 @Component({
   selector: 'app-tasks-list',
@@ -18,13 +19,24 @@ import { MatButtonModule } from '@angular/material/button';
 export class TasksListComponent {
 
   tasks$: Observable<Task[]> = new Observable<Task[]>();
-  newTask: any;
+  newTask: string = '';
 
-  removeTask(_t14: number) {
-    throw new Error('Method not implemented.');
+  constructor(private taskService: TaskService) { }
+
+  removeTask(taskId: number) {
+    this.taskService.removeTask(taskId);
   }
+
   addTask() {
-    throw new Error('Method not implemented.');
+    if (this.newTask.trim()) {
+      const newTask: Task = {
+        id: Date.now(),
+        title: this.newTask.trim(),
+        status: 'pending'
+      }
+      this.taskService.addTask(newTask);
+    }
+
   }
 
 
