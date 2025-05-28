@@ -11,8 +11,15 @@
       <button mat-icon-button color="warn" (click)="removeTask(task.id)">
         <mat-icon>delete</mat-icon>
       </button>
-      {{ task }}
-      <span class="check-icon">✔</span>
+      {{ task.title }}
+      <button mat-raised-button *ngIf="task.status === 'pending'" color="accent"
+        (click)="updateTaskStatus(task.id, 'in-progress')">
+        Put In Progress
+      </button>
+      <button mat-raised-button *ngIf="task.status === 'in-progress'" color="primary"
+        (click)="updateTaskStatus(task.id, 'completed')">
+        Complete
+      </button>
     </li>
   </ul>
 </div>

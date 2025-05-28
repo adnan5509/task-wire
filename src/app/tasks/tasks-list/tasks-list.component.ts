@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { Task } from '../task.model';
+import { Task, TaskStatus } from '../task.model';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,10 +18,16 @@ import { TaskService } from '../task.service';
 })
 export class TasksListComponent {
 
-  tasks$: Observable<Task[]> = new Observable<Task[]>();
+  toggleTaskCompletion(arg0: number) {
+    throw new Error('Method not implemented.');
+  }
+
+  tasks$: Observable<Task[]>;
   newTask: string = '';
 
-  constructor(private taskService: TaskService) { }
+  constructor(private taskService: TaskService) {
+    this.tasks$ = this.taskService.getTasks();
+  }
 
   removeTask(taskId: number) {
     this.taskService.removeTask(taskId);
@@ -37,6 +43,10 @@ export class TasksListComponent {
       this.taskService.addTask(newTask);
     }
 
+  }
+
+  updateTaskStatus(taskId: number, newStatus: TaskStatus) {
+    this.taskService.updateTaskStatus(taskId, newStatus);
   }
 
 

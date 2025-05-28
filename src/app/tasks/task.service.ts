@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Task } from './task.model';
+import { Task, TaskStatus } from './task.model';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -10,7 +10,9 @@ export class TaskService {
   private readonly TASKS_STORAGE_KEY = 'tasks';
   tasks = new BehaviorSubject<Task[]>([]);
 
-  constructor() { }
+  constructor() {
+    this.loadTasks();
+  }
 
   loadTasks() {
     try {
@@ -53,4 +55,19 @@ export class TaskService {
       console.error('Error saving tasks to localStorage:', error);
     }
   }
+
+  updateTaskStatus(taskId: number, newStatus: TaskStatus) {
+    const currentTasks = this.tasks.getValue();
+
+    const updatedTasks = currentTasks.map(task => {
+      if (task.id === taskId) {
+        return { ...task, status: newStatus };
+      }
+      return task;
+    })
+
+    this.tasks.next(updatedTasks);
+    this.saveTasks(updatedTasks);
+  }
+
 }
