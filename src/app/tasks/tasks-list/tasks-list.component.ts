@@ -6,7 +6,9 @@ import { Task, TaskStatus } from '../task.model';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { TaskService } from '../task.service';
+import { Store } from '@ngrx/store';
+import { addTask, removeTask, updateTaskStatus } from '../store/task.actions';
+import { selectAllTasks } from '../store/task.selectors';
 
 @Component({
   selector: 'app-tasks-list',
@@ -25,29 +27,20 @@ export class TasksListComponent {
   tasks$: Observable<Task[]>;
   newTask: string = '';
 
-  constructor(private taskService: TaskService) {
-    this.tasks$ = this.taskService.getTasks();
+  constructor(private store: Store) {
+    this.tasks$ = this.store.select(selectAllTasks);
   }
 
   removeTask(taskId: number) {
-    this.taskService.removeTask(taskId);
+    this.store.dispatch(removeTask({ taskId }));
   }
 
   addTask() {
-    if (this.newTask.trim()) {
-      const newTask: Task = {
-        id: Date.now(),
-        title: this.newTask.trim(),
-        status: 'pending'
-      }
-      this.taskService.addTask(newTask);
-    }
-
+    this.store.dispatch(addTask({ title: this.newTask.trim() }));
   }
 
   updateTaskStatus(taskId: number, newStatus: TaskStatus) {
-    this.taskService.updateTaskStatus(taskId, newStatus);
+    this.store.dispatch(updateTaskStatus({ taskId, newStatus }));
   }
-
 
 }
